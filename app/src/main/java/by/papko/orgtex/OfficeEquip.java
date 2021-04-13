@@ -1,7 +1,7 @@
 package by.papko.orgtex;
 
 public class OfficeEquip {
-    public String inv, serial, nameequio, gropequimp, additional;
+    private String inv, serial, nameequio, gropequimp, additional;
 
     public OfficeEquip() {}
 
@@ -10,6 +10,46 @@ public class OfficeEquip {
         this.serial = serial;
         this.nameequio = nameequio;
         this.gropequimp = gropequimp;
+        this.additional = additional;
+    }
+
+    public String getInv() {
+        return inv;
+    }
+
+    public void setInv(String inv) {
+        this.inv = inv;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
+
+    public String getNameequio() {
+        return nameequio;
+    }
+
+    public void setNameequio(String nameequio) {
+        this.nameequio = nameequio;
+    }
+
+    public String getGropequimp() {
+        return gropequimp;
+    }
+
+    public void setGropequimp(String gropequimp) {
+        this.gropequimp = gropequimp;
+    }
+
+    public String getAdditional() {
+        return additional;
+    }
+
+    public void setAdditional(String additional) {
         this.additional = additional;
     }
 }

@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnCreate;
+    private Button btnCreate, btnTechnik;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnCreate = (Button)findViewById(R.id.btn_create);
+        btnTechnik = (Button)findViewById(R.id.btnTechnik);
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,6 +32,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnTechnik.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                catch (Exception e) {
+
+                }
+            }
+        });
+
     }
 
     //Системная кнопка Назад
