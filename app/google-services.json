@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "819216499591",
+    "firebase_url": "https://orgtechandroid-default-rtdb.firebaseio.com",
+    "project_id": "orgtechandroid",
+    "storage_bucket": "orgtechandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819216499591:android:318ffac4c7ee6a96a20922",
+        "android_client_info": {
+          "package_name": "by.papko.orgtex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819216499591-mhkc4p5a7j6dkqdptso6et0lju11i2t1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyr-c5ZkREVuRQG2HNrtkcIB_WW4im4Cs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819216499591-mhkc4p5a7j6dkqdptso6et0lju11i2t1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
