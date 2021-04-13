@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -58,5 +59,18 @@ public class SearchActivity extends AppCompatActivity {
         };
 
         mDataBase.addValueEventListener(vListener);
+    }
+
+    //Системная кнопка Назад
+    @Override
+    public void onBackPressed(){
+        try{
+            Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }catch (Exception e) {
+
+        }
     }
 }
