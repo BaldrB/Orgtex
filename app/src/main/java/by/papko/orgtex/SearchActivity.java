@@ -12,28 +12,44 @@ import com.google.firebase.database.ValueEventListener;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<OfficeEquip> officeEquips = new ArrayList<OfficeEquip>();
+    private ArrayList<OfficeEquip> officeEquipsArray = new ArrayList<OfficeEquip>();
     private DatabaseReference mDataBase;
     OfficeAdapter adapter;
     RecyclerView recyclerView;
 
-
+    private EditText edSearch;
+    private Button btnSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        edSearch = findViewById(R.id.editInvert);
+        btnSearch = findViewById(R.id.btnSearch);
+
         recyclerView = (RecyclerView) findViewById(R.id.list);
-        adapter = new OfficeAdapter(this, officeEquips);
+        adapter = new OfficeAdapter(this, officeEquipsArray);
 
         recyclerView.setAdapter(adapter);
         mDataBase = FirebaseDatabase.getInstance().getReference("ORGTECH");
 
         getDataFromDB();
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchList();
+            }
+        });
     }
 
     private void getDataFromDB() {
@@ -50,6 +66,7 @@ public class SearchActivity extends AppCompatActivity {
                     assert  officeEquip != null;
                     officeEquips.add(officeEquip);
                 }
+                officeEquipsArray.addAll(officeEquips);
                 adapter.notifyDataSetChanged();
             }
 
@@ -59,6 +76,29 @@ public class SearchActivity extends AppCompatActivity {
         };
 
         mDataBase.addValueEventListener(vListener);
+    }
+
+    private void searchList() {
+        if(!TextUtils.isEmpty(edSearch.getText().toString())) {
+            String rn = ".*("+ edSearch.getText().toString() +").*";
+            System.out.println(rn);
+            ArrayList<OfficeEquip> oE = new ArrayList<OfficeEquip>();
+
+            for(OfficeEquip e : officeEquips) {
+                if (e.getInv().matches(rn)) {
+                    oE.add(e);
+                }
+            }
+            officeEquipsArray.clear();
+            officeEquipsArray.addAll(oE);
+
+        }
+        else {
+            officeEquipsArray.clear();
+            officeEquipsArray.addAll(officeEquips);
+        }
+        adapter.notifyDataSetChanged();
+
     }
 
     //Системная кнопка Назад

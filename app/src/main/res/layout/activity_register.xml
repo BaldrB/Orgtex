@@ -17,13 +17,27 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvUserEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Вход" />
+
             <EditText
                 android:id="@+id/editEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Почта"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editPassword"
@@ -31,19 +45,22 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Парол"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnSignOut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Создать учетную запись" />
+                android:text="Создать учетную запись"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnSingIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Вход" />
+                android:text="Вход"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

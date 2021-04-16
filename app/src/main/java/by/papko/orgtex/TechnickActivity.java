@@ -52,7 +52,6 @@ public class TechnickActivity extends AppCompatActivity {
 
         if(!TextUtils.isEmpty( editInv.getText().toString() )) {
             mDataBase.push().setValue(officeEquip);
-
         }
 
     }

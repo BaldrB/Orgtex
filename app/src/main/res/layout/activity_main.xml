@@ -23,13 +23,27 @@
                 android:id="@+id/btn_create"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Создать технику" />
+                android:text="Создать технику"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnTechnik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Техника" />
+
+            <Button
+                android:id="@+id/btnAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Админ"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btnExit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Выйти" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
