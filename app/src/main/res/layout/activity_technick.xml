@@ -29,15 +29,28 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Инвертаный номер"
-                android:inputType="phone" />
+                android:inputType="number" />
 
-            <EditText
-                android:id="@+id/edSerialNamber"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Сериный номер"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edSerialNambers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Сериный номер"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/btnScaner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Скан шрих код" />
+            </LinearLayout>
+
             <EditText
                 android:id="@+id/edNameTech"
                 android:layout_width="match_parent"
@@ -61,6 +74,12 @@
                 android:gravity="start|top"
                 android:hint="Дополнитедьные характеристики"
                 android:inputType="textMultiLine" />
+
+            <TextView
+                android:id="@+id/tvTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
 
             <Button
                 android:id="@+id/btnCreate"

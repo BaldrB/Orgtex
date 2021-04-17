@@ -34,35 +34,9 @@ public class MainActivity extends AppCompatActivity {
         btnAdmin = findViewById(R.id.btnAdmin);
         btnExit = findViewById(R.id.btnExit);
 
+
         mAuth = FirebaseAuth.getInstance();
         mDataBase = FirebaseDatabase.getInstance().getReference("SECURITY");
-
-        mDataBase.child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue(SecurityUser.class)));
-                    if (!(null == task.getResult().getValue(SecurityUser.class))) {
-                        SecurityUser seUs = task.getResult().getValue(SecurityUser.class);
-                        securiy = seUs.getAccess();
-                        if (securiy.equals("vision")) {
-                            btnCreate.setEnabled(false);
-                            btnAdmin.setEnabled(false);
-                            btnAdmin.setVisibility(View.INVISIBLE);
-                        }
-                        else if (securiy.equals("full")) {
-                        }
-                        else if (securiy.equals("add")) {
-                            btnAdmin.setEnabled(false);
-                            btnAdmin.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                }
-            }
-        });
 
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +77,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mDataBase.child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue(SecurityUser.class)));
+                    if (!(null == task.getResult().getValue(SecurityUser.class))) {
+                        SecurityUser seUs = task.getResult().getValue(SecurityUser.class);
+                        securiy = seUs.getAccess();
+                        if (securiy.equals("vision")) {
+                            btnCreate.setEnabled(false);
+                            btnAdmin.setEnabled(false);
+                            btnAdmin.setVisibility(View.INVISIBLE);
+                        }
+                        else if (securiy.equals("full")) {
+                        }
+                        else if (securiy.equals("add")) {
+                            btnAdmin.setEnabled(false);
+                            btnAdmin.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     //Системная кнопка Назад
