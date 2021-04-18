@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:padding="20dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -23,27 +24,27 @@
                 android:id="@+id/btn_create"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Создать технику"
+                android:text="Добавить оргтехнику"
                 android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnTechnik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Техника" />
+                android:text="Каталог Оргтехинки" />
 
             <Button
                 android:id="@+id/btnAdmin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Админ"
+                android:text="Консоль Администратора"
                 android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnExit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Выйти" />
+                android:text="выйти из учетной записи" />
 
         </LinearLayout>
     </LinearLayout>

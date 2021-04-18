@@ -15,6 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:orientation="vertical">
 
             <Button
@@ -40,6 +41,7 @@
                     android:id="@+id/edSerialNambers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="5"
                     android:hint="Сериный номер"
                     android:inputType="textPersonName" />
 
@@ -47,7 +49,7 @@
                     android:id="@+id/btnScaner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:text="Скан шрих код" />
             </LinearLayout>
 
@@ -74,12 +76,6 @@
                 android:gravity="start|top"
                 android:hint="Дополнитедьные характеристики"
                 android:inputType="textMultiLine" />
-
-            <TextView
-                android:id="@+id/tvTest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
 
             <Button
                 android:id="@+id/btnCreate"

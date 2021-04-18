@@ -1,6 +1,8 @@
 package by.papko.orgtex;
 
-public class OfficeEquip {
+import java.io.Serializable;
+
+public class OfficeEquip implements Serializable {
     private String inv, serial, nameequio, gropequimp, additional;
 
     public OfficeEquip() {}

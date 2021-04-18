@@ -12,12 +12,19 @@ import java.util.List;
 
 public class OfficeAdapter extends RecyclerView.Adapter<OfficeAdapter.ViewHolder> {
 
+    interface OnOfficeEquipClickListener{
+        void onOfficeEquipClick(OfficeEquip officeEquip, int position);
+    }
+
+    private final OnOfficeEquipClickListener onClickListener;
+
     private final LayoutInflater inflater;
     private final List<OfficeEquip> officeEquips;
 
-    OfficeAdapter(Context context, List<OfficeEquip> officeEquip) {
+    OfficeAdapter(Context context, List<OfficeEquip> officeEquip, OnOfficeEquipClickListener onOfficeEquipClick) {
         this.officeEquips = officeEquip;
         this.inflater = LayoutInflater.from(context);
+        this.onClickListener = onOfficeEquipClick;
     }
 
     @Override
@@ -32,6 +39,13 @@ public class OfficeAdapter extends RecyclerView.Adapter<OfficeAdapter.ViewHolder
         holder.inent.setText(officeEquip.getInv());
         holder.serial.setText(officeEquip.getSerial());
         holder.name.setText(officeEquip.getNameequio());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onOfficeEquipClick(officeEquip, position);
+            }
+        });
     }
 
     @Override

@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser cUser = mAuth.getCurrentUser();
         if (cUser != null) {
-            Toast.makeText(this, "User not null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Пользователь присутствует", Toast.LENGTH_SHORT).show();
             btnSingOn.setVisibility(View.GONE);
             btnSingIn.setVisibility(View.GONE);
             editEmail.setVisibility(View.GONE);
@@ -51,22 +51,17 @@ public class RegisterActivity extends AppCompatActivity {
 
             btnStart.setVisibility(View.VISIBLE);
             tvUserEmail.setVisibility(View.VISIBLE);
-            String userName = "Вы вошликак " + cUser.getEmail();
+            String userName = "Пользователь: " + cUser.getEmail();
             tvUserEmail.setText(userName);
-//            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
         }
         else {
-            Toast.makeText(this, "User null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Пользователь отсутсвует", Toast.LENGTH_SHORT).show();
             btnSingOn.setVisibility(View.VISIBLE);
             btnSingIn.setVisibility(View.VISIBLE);
             editEmail.setVisibility(View.VISIBLE);
             editPassword.setVisibility(View.VISIBLE);
-
             btnStart.setVisibility(View.GONE);
             tvUserEmail.setVisibility(View.GONE);
-//            System.out.println("User null");
         }
 
     }
@@ -81,19 +76,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDataBase = FirebaseDatabase.getInstance().getReference("SECURITY");
-
-//        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser user = firebaseAuth.getCurrentUser();
-//                if (user != null) {
-//                    Log.d(TAG, "OnAuthStateChanged:signed_in:" + user.getUid());
-//                } else {
-//                    Log.d(TAG, "OnAuthStateChanged:signed_out:");
-//                }
-//
-//            }
-//        };
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +114,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
-
 
         btnSingIn.setOnClickListener(new View.OnClickListener() {
             @Override

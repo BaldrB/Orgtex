@@ -37,7 +37,15 @@ public class SearchActivity extends AppCompatActivity {
         btnSearch = findViewById(R.id.btnSearch);
 
         recyclerView = (RecyclerView) findViewById(R.id.list);
-        adapter = new OfficeAdapter(this, officeEquipsArray);
+        OfficeAdapter.OnOfficeEquipClickListener officeEquipClickListener = new OfficeAdapter.OnOfficeEquipClickListener() {
+            @Override
+            public void onOfficeEquipClick(OfficeEquip officeEquip, int position) {
+                Intent intent = new Intent(SearchActivity.this, ShowOfficeActivity.class);
+                intent.putExtra(OfficeEquip.class.getSimpleName(), officeEquip);
+                startActivity(intent);
+            }
+        };
+        adapter = new OfficeAdapter(this, officeEquipsArray, officeEquipClickListener);
 
         recyclerView.setAdapter(adapter);
         mDataBase = FirebaseDatabase.getInstance().getReference("ORGTECH");

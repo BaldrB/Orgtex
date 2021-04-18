@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -63,8 +64,19 @@ public class TechnickActivity extends AppCompatActivity {
                 editSerial.getText().toString(), editName.getText().toString(),
                 editgrpoup.getText().toString(), editDop.getText().toString());
 
-        if(!TextUtils.isEmpty( editInv.getText().toString() )) {
+        if(!TextUtils.isEmpty(editInv.getText().toString()) && !TextUtils.isEmpty(editSerial.getText().toString())
+                && !TextUtils.isEmpty(editName.getText().toString()) && !TextUtils.isEmpty(editgrpoup.getText().toString())) {
             mDataBase.push().setValue(officeEquip);
+            Toast.makeText(this, "Оргтехика добавлена в каталог", Toast.LENGTH_SHORT).show();
+
+            editInv.setText("");
+            editSerial.setText("");
+            editName.setText("");
+            editgrpoup.setText("");
+            editDop.setText("");
+
+        } else {
+            Toast.makeText(this, "Зполниет все поля", Toast.LENGTH_LONG).show();
         }
     }
 
