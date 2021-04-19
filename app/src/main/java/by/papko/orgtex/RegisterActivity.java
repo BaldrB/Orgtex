@@ -66,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
     private void init() {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);

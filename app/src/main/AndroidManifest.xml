@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Orgtex">
-        <activity android:name=".ShowOfficeActivity"></activity>
+        <activity android:name=".RepairCreateActivity"></activity>
+        <activity android:name=".ShowOfficeActivity" />
         <activity android:name=".BaracodeActivity" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".SearchActivity" />
