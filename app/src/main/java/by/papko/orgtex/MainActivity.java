@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnCreate, btnTechnik, btnAdmin, btnExit;
+    private Button btnCreate, btnTechnik, btnAdmin, btnExit, btnCreateRepair;
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
     private String securiy;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         btnTechnik = (Button)findViewById(R.id.btnTechnik);
         btnAdmin = findViewById(R.id.btnAdmin);
         btnExit = findViewById(R.id.btnExit);
+        btnCreateRepair = findViewById(R.id.btnCreateRepair);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -72,7 +73,19 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
                 catch (Exception e) {
+                }
+            }
+        });
 
+        btnCreateRepair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MainActivity.this, RepairCreateActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                catch (Exception e) {
                 }
             }
         });
@@ -119,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
 
         }catch (Exception e) {
-
         }
     }
 

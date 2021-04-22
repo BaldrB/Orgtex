@@ -60,13 +60,14 @@ public class TechnickActivity extends AppCompatActivity {
     }
 
     public void onClickCreate(View view) {
-        OfficeEquip officeEquip = new OfficeEquip(editInv.getText().toString(),
+        String idkey = mDataBase.push().getKey();
+        OfficeEquip officeEquip = new OfficeEquip(idkey, editInv.getText().toString(),
                 editSerial.getText().toString(), editName.getText().toString(),
                 editgrpoup.getText().toString(), editDop.getText().toString());
 
         if(!TextUtils.isEmpty(editInv.getText().toString()) && !TextUtils.isEmpty(editSerial.getText().toString())
                 && !TextUtils.isEmpty(editName.getText().toString()) && !TextUtils.isEmpty(editgrpoup.getText().toString())) {
-            mDataBase.push().setValue(officeEquip);
+            mDataBase.child(idkey).setValue(officeEquip);
             Toast.makeText(this, "Оргтехика добавлена в каталог", Toast.LENGTH_SHORT).show();
 
             editInv.setText("");

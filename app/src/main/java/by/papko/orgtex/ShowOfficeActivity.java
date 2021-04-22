@@ -4,17 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ShowOfficeActivity extends AppCompatActivity {
 
     private TextView textInv, textSer, textNa, textGro, textDops;
-    private Button btnBack, btnRedact;
+    private Button btnBack, btnRedact, btnSave;
     private EditText editTest;
     private boolean flagBtnRedact = true;
+    OfficeEquip officeEquip;
+    private DatabaseReference mDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +35,10 @@ public class ShowOfficeActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack1);
         btnRedact = findViewById(R.id.btnRedact);
         editTest = findViewById(R.id.editTest);
+        btnSave = findViewById(R.id.btnShowOfficeSave);
+        mDataBase = FirebaseDatabase.getInstance().getReference("ORGTECH");
 
         Bundle arguments = getIntent().getExtras();
-        OfficeEquip officeEquip;
 
         if(arguments !=null) {
             officeEquip = (OfficeEquip) arguments.getSerializable(OfficeEquip.class.getSimpleName());
@@ -48,6 +56,25 @@ public class ShowOfficeActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OfficeEquip officeEquipSave = new OfficeEquip(officeEquip.getId(), textInv.getText().toString(),
+                        textSer.getText().toString(), textNa.getText().toString(),
+                        textGro.getText().toString(), textDops.getText().toString());
+
+                if(!TextUtils.isEmpty(textInv.getText().toString()) && !TextUtils.isEmpty(textSer.getText().toString())
+                        && !TextUtils.isEmpty(textNa.getText().toString()) && !TextUtils.isEmpty(textGro.getText().toString())) {
+                    mDataBase.child(officeEquip.getId()).setValue(officeEquipSave);
+                    Toast.makeText(getApplicationContext(), "Оргтехика Изменена", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Зполниет все поля", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -75,6 +102,8 @@ public class ShowOfficeActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     //Системная кнопка Назад

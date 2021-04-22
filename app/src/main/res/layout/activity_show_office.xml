@@ -28,52 +28,58 @@
                 android:layout_height="wrap_content"
                 android:text="Назад" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textInv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:text="TextView"
+                android:hint="Инвентарный"
+                android:inputType="textPersonName"
                 android:textSize="24dp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textSer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:text="TextView"
+                android:hint="Серийный"
+                android:inputType="textPersonName"
                 android:textSize="24dp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textNa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:text="TextView"
+                android:hint="Название"
+                android:inputType="textPersonName"
                 android:textSize="24dp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textGrou"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:text="TextView"
+                android:hint="Группа"
+                android:inputType="textPersonName"
                 android:textSize="24dp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textDops"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:text="TextView"
+                android:hint="Доп"
+                android:inputType="textPersonName"
                 android:textSize="24dp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:text="TextView"
+                android:hint="textview"
+                android:inputType="textPersonName"
                 android:textSize="24dp" />
 
             <EditText
@@ -92,10 +98,10 @@
                 android:text="Редактировать" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnShowOfficeSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="Сохранить" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
