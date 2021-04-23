@@ -56,7 +56,7 @@ public class RepairCreateActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mDataBase = FirebaseDatabase.getInstance().getReference("REPAIR");
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.REPAIR);
         editNameRepairCreate = findViewById(R.id.editNameRepairCreate);
         editSerialRepairCreate = findViewById(R.id.editSerialRepairCreate);
         editQuantityRepairCreate = findViewById(R.id.editQuantityRepairCreate);

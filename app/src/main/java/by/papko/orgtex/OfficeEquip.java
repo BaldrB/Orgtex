@@ -1,11 +1,12 @@
 package by.papko.orgtex;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OfficeEquip implements Serializable {
     private String id, inv, serial, nameequio, gropequimp, additional;
-    private List<RepairParts> repairParts;
+    private List<String> repairPartsId = new ArrayList<String>();
 
     public OfficeEquip() {}
 
@@ -17,15 +18,6 @@ public class OfficeEquip implements Serializable {
         this.gropequimp = gropequimp;
         this.additional = additional;
 
-    }
-    public OfficeEquip(String id, String inv, String serial, String nameequio, String gropequimp, String additional, List<RepairParts> repairParts) {
-        this.id = id;
-        this.inv = inv;
-        this.serial = serial;
-        this.nameequio = nameequio;
-        this.gropequimp = gropequimp;
-        this.additional = additional;
-        this.repairParts = repairParts;
     }
 
     public String getInv() {
@@ -76,14 +68,15 @@ public class OfficeEquip implements Serializable {
         this.id = id;
     }
 
-    public List<RepairParts> getRepairParts() {
-        return repairParts;
+    public List<String> getRepairPartsId() {
+        return repairPartsId;
     }
 
-    public void setRepairParts(List<RepairParts> repairParts) {
-        this.repairParts = repairParts;
+    public void setRepairPartsId(List<String> repairPartsId) {
+        this.repairPartsId = repairPartsId;
     }
-    public void setRepairPartsAdd(String id) {
-        this.repairParts = repairParts;
+
+    public void addRepairPartsId(String id) {
+        repairPartsId.add(id);
     }
 }

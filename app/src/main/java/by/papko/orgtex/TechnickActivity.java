@@ -39,7 +39,7 @@ public class TechnickActivity extends AppCompatActivity {
         editDop = findViewById(R.id.edDop);
         btnScaner = findViewById(R.id.btnScaner);
 
-        mDataBase = FirebaseDatabase.getInstance().getReference("ORGTECH");
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

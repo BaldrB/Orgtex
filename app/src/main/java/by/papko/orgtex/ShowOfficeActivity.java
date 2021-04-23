@@ -36,7 +36,7 @@ public class ShowOfficeActivity extends AppCompatActivity {
         btnRedact = findViewById(R.id.btnRedact);
         editTest = findViewById(R.id.editTest);
         btnSave = findViewById(R.id.btnShowOfficeSave);
-        mDataBase = FirebaseDatabase.getInstance().getReference("ORGTECH");
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
 
         Bundle arguments = getIntent().getExtras();
 

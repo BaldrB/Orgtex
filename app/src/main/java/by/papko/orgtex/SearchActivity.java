@@ -28,13 +28,15 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private EditText edSearch;
-    private Button btnSearch;
+    private Button btnSearch, btnSearchBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         edSearch = findViewById(R.id.editInvert);
         btnSearch = findViewById(R.id.btnSearch);
+        btnSearchBack = findViewById(R.id.btnSearchBack);
 
         recyclerView = (RecyclerView) findViewById(R.id.list);
         OfficeAdapter.OnOfficeEquipClickListener officeEquipClickListener = new OfficeAdapter.OnOfficeEquipClickListener() {
@@ -48,15 +50,16 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new OfficeAdapter(this, officeEquipsArray, officeEquipClickListener);
 
         recyclerView.setAdapter(adapter);
-        mDataBase = FirebaseDatabase.getInstance().getReference("ORGTECH");
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
 
         getDataFromDB();
 
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchList();
-            }
+        btnSearch.setOnClickListener(v -> searchList());
+
+        btnSearchBack.setOnClickListener(v -> {
+            Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -90,7 +93,7 @@ public class SearchActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(edSearch.getText().toString())) {
             String rn = ".*("+ edSearch.getText().toString() +").*";
             System.out.println(rn);
-            ArrayList<OfficeEquip> oE = new ArrayList<OfficeEquip>();
+            ArrayList<OfficeEquip> oE = new ArrayList<>();
 
             for(OfficeEquip e : officeEquips) {
                 if (e.getInv().matches(rn)) {
@@ -113,12 +116,12 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         try{
-            Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+            Intent intent = new Intent(SearchActivity.this,
+                    MainActivity.class);
             startActivity(intent);
             finish();
 
-        }catch (Exception e) {
-
+        }catch (Exception ignored) {
         }
     }
 }

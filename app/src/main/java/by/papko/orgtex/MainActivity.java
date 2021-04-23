@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
-        mDataBase = FirebaseDatabase.getInstance().getReference("SECURITY");
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.SECURITY);
 
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override

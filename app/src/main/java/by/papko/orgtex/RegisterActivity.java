@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         tvUserEmail = findViewById(R.id.tvUserEmail);
 
         mAuth = FirebaseAuth.getInstance();
-        mDataBase = FirebaseDatabase.getInstance().getReference("SECURITY");
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.SECURITY);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
