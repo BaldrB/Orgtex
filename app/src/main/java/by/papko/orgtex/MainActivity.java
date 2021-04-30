@@ -2,8 +2,15 @@ package by.papko.orgtex;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,16 +19,24 @@ import android.widget.Button;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnCreate, btnTechnik, btnAdmin, btnExit, btnCreateRepair;
+    private Button btnCreate, btnTechnik, btnAdmin, btnExit, btnCreateRepair, btnPush;
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
     private String securiy;
+
+    // Идентификатор уведомления
+    private static final int NOTIFY_ID = 101;
+
+    // Идентификатор канала
+    String id = "id_product";
+    NotificationManager notificationManager;
 
 
     @Override
@@ -29,12 +44,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        createNotificationChannel();
+
         btnCreate = (Button)findViewById(R.id.btn_create);
         btnTechnik = (Button)findViewById(R.id.btnTechnik);
         btnAdmin = findViewById(R.id.btnAdmin);
         btnExit = findViewById(R.id.btnExit);
         btnCreateRepair = findViewById(R.id.btnCreateRepair);
-
+        btnPush = findViewById(R.id.btnPush);
 
         mAuth = FirebaseAuth.getInstance();
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.SECURITY);
@@ -63,10 +80,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        btnPush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationCompat.Builder builder =
+                        new NotificationCompat.Builder(MainActivity.this)
+                                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                                .setContentTitle("Title")
+                                .setChannelId(id)
+                                .setContentText("Notification text");
+
+                Notification notification = builder.build();
+
+                notificationManager.notify(1, notification);
+            }
+        });
 
         btnTechnik.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                     startActivity(intent);
@@ -91,10 +124,35 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+            // The user-visible name of the channel.
+            CharSequence name = "Product";
+            // The user-visible description of the channel.
+            String description = "Notifications regarding our products";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel mChannel = new NotificationChannel(id, name, importance);
+            // Configure the notification channel.
+            mChannel.setDescription(description);
+            mChannel.enableLights(true);
+            // Sets the notification light color for notifications posted to this
+            // channel, if the device supports this feature.
+            mChannel.setLightColor(Color.RED);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null)
+            Log.d("MyLog", "UID : " + currentUser.getUid());
+        else
+            Log.d("MyLog", "UID : not");
+
         mDataBase.child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {

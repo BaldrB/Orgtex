@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -21,6 +23,7 @@ public class TechnickActivity extends AppCompatActivity {
     private Button btnBack, btnCreate, btnScaner;
     private EditText editInv, editSerial, editName, editgrpoup, editDop;
     private DatabaseReference mDataBase;
+    private FirebaseAuth mAuth;
 
     private final static String TAG = "TechnickActivity";
 
@@ -40,6 +43,7 @@ public class TechnickActivity extends AppCompatActivity {
         btnScaner = findViewById(R.id.btnScaner);
 
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
+        mAuth = FirebaseAuth.getInstance();
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +96,11 @@ public class TechnickActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null)
+            Log.d("MyLog", "UID : " + currentUser.getUid());
+        else
+            Log.d("MyLog", "UID : not");
         Log.d(TAG, "onStart");
     }
 

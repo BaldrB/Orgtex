@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView tvUserEmail;
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+//    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private Button btnSingOn, btnSingIn, btnStart;
 
