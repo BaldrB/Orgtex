@@ -1,6 +1,8 @@
 package by.papko.orgtex;
 
-public class RepairParts {
+import java.io.Serializable;
+
+public class RepairParts implements Serializable {
     private String id, name, serial, dop;
     private int quantity = 0;
 

@@ -102,6 +102,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Сохранить" />
+
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/listShowOffice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,16 @@ public class OfficeEquip implements Serializable {
         this.additional = additional;
 
     }
+    public OfficeEquip(String id, String inv, String serial, String nameequio, String gropequimp, String additional, ArrayList<String> repairPartsId) {
+        this.id = id;
+        this.inv = inv;
+        this.serial = serial;
+        this.nameequio = nameequio;
+        this.gropequimp = gropequimp;
+        this.additional = additional;
+        this.repairPartsId.addAll(repairPartsId);
+
+    }
 
     public String getInv() {
         return inv;

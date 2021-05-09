@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnCreate, btnTechnik, btnAdmin, btnExit, btnCreateRepair, btnPush;
+    private Button btnCreate, btnTechnik, btnAdmin, btnExit, btnCreateRepair, btnPush, btnRepair;
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
     private String securiy;
@@ -52,9 +52,19 @@ public class MainActivity extends AppCompatActivity {
         btnExit = findViewById(R.id.btnExit);
         btnCreateRepair = findViewById(R.id.btnCreateRepair);
         btnPush = findViewById(R.id.btnPush);
+        btnRepair = findViewById(R.id.btnRepair);
 
         mAuth = FirebaseAuth.getInstance();
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.SECURITY);
+
+        btnRepair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SearchRapair.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
 
@@ -80,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         btnPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,37 +158,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null)
+        if (currentUser != null) {
             Log.d("MyLog", "UID : " + currentUser.getUid());
-        else
-            Log.d("MyLog", "UID : not");
-
-        mDataBase.child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue(SecurityUser.class)));
-                    if (!(null == task.getResult().getValue(SecurityUser.class))) {
-                        SecurityUser seUs = task.getResult().getValue(SecurityUser.class);
-                        securiy = seUs.getAccess();
-                        if (securiy.equals("vision")) {
-                            btnCreate.setEnabled(false);
-                            btnAdmin.setEnabled(false);
-                            btnAdmin.setVisibility(View.INVISIBLE);
-                        }
-                        else if (securiy.equals("full")) {
-                        }
-                        else if (securiy.equals("add")) {
-                            btnAdmin.setEnabled(false);
-                            btnAdmin.setVisibility(View.INVISIBLE);
+            mDataBase.child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        Log.d("firebase", String.valueOf(task.getResult().getValue(SecurityUser.class)));
+                        if (!(null == task.getResult().getValue(SecurityUser.class))) {
+                            SecurityUser seUs = task.getResult().getValue(SecurityUser.class);
+                            securiy = seUs.getAccess();
+                            if (securiy.equals("vision")) {
+                                btnCreate.setEnabled(false);
+                                btnAdmin.setEnabled(false);
+                                btnAdmin.setVisibility(View.INVISIBLE);
+                            } else if (securiy.equals("full")) {
+                            } else if (securiy.equals("add")) {
+                                btnAdmin.setEnabled(false);
+                                btnAdmin.setVisibility(View.INVISIBLE);
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
+        else
+            Log.d("MyLog", "UID : not");
+
+
     }
 
     //Системная кнопка Назад

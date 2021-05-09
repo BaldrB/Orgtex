@@ -30,8 +30,8 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<OfficeEquip> officeEquips = new ArrayList<OfficeEquip>();
     private ArrayList<OfficeEquip> officeEquipsArray = new ArrayList<OfficeEquip>();
     private DatabaseReference mDataBase;
-    OfficeAdapter adapter;
-    RecyclerView recyclerView;
+    private OfficeAdapter adapter;
+    private RecyclerView recyclerView;
 
     private EditText edSearch;
     private Button btnSearch, btnSearchBack;
@@ -52,9 +52,20 @@ public class SearchActivity extends AppCompatActivity {
         OfficeAdapter.OnOfficeEquipClickListener officeEquipClickListener = new OfficeAdapter.OnOfficeEquipClickListener() {
             @Override
             public void onOfficeEquipClick(OfficeEquip officeEquip, int position) {
-                Intent intent = new Intent(SearchActivity.this, ShowOfficeActivity.class);
-                intent.putExtra(OfficeEquip.class.getSimpleName(), officeEquip);
-                startActivity(intent);
+                Intent i = getIntent();
+                String stringID = i.getStringExtra("TECHINK");
+                if (stringID != null && stringID.equals("45")) {
+                    Intent intent = new Intent(SearchActivity.this, TechnickActivity.class);
+                    intent.putExtra(OfficeEquip.class.getSimpleName(), officeEquip);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
+                }else {
+                    Intent intent = new Intent(SearchActivity.this, ShowOfficeActivity.class);
+                    intent.putExtra(OfficeEquip.class.getSimpleName(), officeEquip);
+                    startActivity(intent);
+                }
+
             }
         };
         adapter = new OfficeAdapter(this, officeEquipsArray, officeEquipClickListener);
@@ -108,6 +119,7 @@ public class SearchActivity extends AppCompatActivity {
 
         mDataBase.addValueEventListener(vListener);
     }
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -127,6 +139,7 @@ public class SearchActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(mChannel);
         }
     }
+
     private void searchList() {
 
         if(!TextUtils.isEmpty(edSearch.getText().toString())) {

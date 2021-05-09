@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,12 +20,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class TechnickActivity extends AppCompatActivity {
 
-    private Button btnBack, btnCreate, btnScaner;
+    private Button btnBack, btnCreate, btnScaner, btnTechnikAddRepair;
     private EditText editInv, editSerial, editName, editgrpoup, editDop;
+    private ListView listRepairTech;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
+    OfficeEquip officeEquip;
+    ArrayList<String> countries = new ArrayList<>();
+    ArrayAdapter<String> adapter;
 
     private final static String TAG = "TechnickActivity";
 
@@ -41,9 +49,30 @@ public class TechnickActivity extends AppCompatActivity {
         editgrpoup = findViewById(R.id.edGroupTech);
         editDop = findViewById(R.id.edDop);
         btnScaner = findViewById(R.id.btnScaner);
+        btnTechnikAddRepair = findViewById(R.id.btnTechnikAddRepair);
+        listRepairTech = findViewById(R.id.listRepairTech);
+        // создаем адаптер
+        adapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, countries);
+
+        // устанавливаем для списка адаптер
+        listRepairTech.setAdapter(adapter);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser cUser = mAuth.getCurrentUser();
+        Log.d("MyLog", "TechnickActivity UID : " + cUser.getUid());
 
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
         mAuth = FirebaseAuth.getInstance();
+
+        btnTechnikAddRepair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TechnickActivity.this, SearchActivity.class);
+                intent.putExtra("TECHINK","45");
+                startActivityForResult(intent, 45);
+            }
+        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +96,7 @@ public class TechnickActivity extends AppCompatActivity {
         String idkey = mDataBase.push().getKey();
         OfficeEquip officeEquip = new OfficeEquip(idkey, editInv.getText().toString(),
                 editSerial.getText().toString(), editName.getText().toString(),
-                editgrpoup.getText().toString(), editDop.getText().toString());
+                editgrpoup.getText().toString(), editDop.getText().toString(), countries);
 
         if(!TextUtils.isEmpty(editInv.getText().toString()) && !TextUtils.isEmpty(editSerial.getText().toString())
                 && !TextUtils.isEmpty(editName.getText().toString()) && !TextUtils.isEmpty(editgrpoup.getText().toString())) {
@@ -90,6 +119,14 @@ public class TechnickActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             editSerial.setText(data.getStringExtra(Constant.SERIAL_NAME));
+        }
+        if (requestCode == 45) {
+            Bundle arguments = data.getExtras();
+            if(arguments !=null) {
+                officeEquip = (OfficeEquip) arguments.getSerializable(OfficeEquip.class.getSimpleName());
+                adapter.add(officeEquip.getId());
+            }
+            adapter.notifyDataSetChanged();
         }
     }
 

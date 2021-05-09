@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser cUser = mAuth.getCurrentUser();
+
         if (cUser != null) {
             Toast.makeText(this, "Пользователь присутствует", Toast.LENGTH_SHORT).show();
             btnSingOn.setVisibility(View.GONE);

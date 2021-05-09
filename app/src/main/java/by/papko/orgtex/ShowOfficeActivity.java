@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,9 +24,12 @@ public class ShowOfficeActivity extends AppCompatActivity {
     private TextView textInv, textSer, textNa, textGro, textDops;
     private Button btnBack, btnRedact, btnSave;
     private EditText editTest;
+    private ListView listShowOffice;
     private boolean flagBtnRedact = true;
     OfficeEquip officeEquip;
     private DatabaseReference mDataBase;
+    private FirebaseAuth mAuth;
+    String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай", "Аргентина", "Колумбия", "Чили", "Уругвай"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +44,23 @@ public class ShowOfficeActivity extends AppCompatActivity {
         btnRedact = findViewById(R.id.btnRedact);
         editTest = findViewById(R.id.editTest);
         btnSave = findViewById(R.id.btnShowOfficeSave);
+        listShowOffice = findViewById(R.id.listShowOffice);
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
 
+        // создаем адаптер
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, countries);
+
+        // устанавливаем для списка адаптер
+        listShowOffice.setAdapter(adapter);
+
         Bundle arguments = getIntent().getExtras();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser cUser = mAuth.getCurrentUser();
+        Log.d("MyLog", "ShowOfficeActivity UID : " + cUser.getUid());
+
 
         if(arguments !=null) {
-            officeEquip = (OfficeEquip) arguments.getSerializable(OfficeEquip.class.getSimpleName());
-            textInv.setText(officeEquip.getInv());
-            textSer.setText(officeEquip.getSerial());
-            textNa.setText(officeEquip.getNameequio());
-            textGro.setText(officeEquip.getGropequimp());
-            textDops.setText(officeEquip.getAdditional());
         }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +116,6 @@ public class ShowOfficeActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     //Системная кнопка Назад

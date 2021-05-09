@@ -52,6 +52,19 @@ public class RepairCreateActivity extends AppCompatActivity {
                 }
             }
         });
+        btnBackRepairCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    Intent intent = new Intent(RepairCreateActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }catch (Exception e) {
+                }
+
+            }
+        });
 
     }
 
@@ -61,7 +74,6 @@ public class RepairCreateActivity extends AppCompatActivity {
         editSerialRepairCreate = findViewById(R.id.editSerialRepairCreate);
         editQuantityRepairCreate = findViewById(R.id.editQuantityRepairCreate);
         editDopRepairCreate = findViewById(R.id.editDopRepairCreate);
-
         btnBackRepairCreate = findViewById(R.id.btnBackRepairCreate);
         btnCreateRepairCreate = findViewById(R.id.btnCreateRepairCreate);
     }
