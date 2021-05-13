@@ -31,7 +31,8 @@
                 android:id="@+id/btnPush"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Уведомление" />
+                android:text="Уведомление"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnCreateRepair"

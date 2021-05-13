@@ -46,28 +46,19 @@ public class SearchActivity extends AppCompatActivity {
         edSearch = findViewById(R.id.editInvert);
         btnSearch = findViewById(R.id.btnSearch);
         btnSearchBack = findViewById(R.id.btnSearchBack);
-        createNotificationChannel();
+//        createNotificationChannel();
 
-        recyclerView = (RecyclerView) findViewById(R.id.list);
+        recyclerView = (RecyclerView) findViewById(R.id.listSearchTechnick);
+
         OfficeAdapter.OnOfficeEquipClickListener officeEquipClickListener = new OfficeAdapter.OnOfficeEquipClickListener() {
             @Override
             public void onOfficeEquipClick(OfficeEquip officeEquip, int position) {
-                Intent i = getIntent();
-                String stringID = i.getStringExtra("TECHINK");
-                if (stringID != null && stringID.equals("45")) {
-                    Intent intent = new Intent(SearchActivity.this, TechnickActivity.class);
-                    intent.putExtra(OfficeEquip.class.getSimpleName(), officeEquip);
-                    setResult(RESULT_OK, intent);
-                    finish();
-
-                }else {
                     Intent intent = new Intent(SearchActivity.this, ShowOfficeActivity.class);
                     intent.putExtra(OfficeEquip.class.getSimpleName(), officeEquip);
                     startActivity(intent);
-                }
-
             }
         };
+
         adapter = new OfficeAdapter(this, officeEquipsArray, officeEquipClickListener);
 
         recyclerView.setAdapter(adapter);
@@ -89,16 +80,16 @@ public class SearchActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                NotificationCompat.Builder builder =
-                        new NotificationCompat.Builder(SearchActivity.this)
-                                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                                .setContentTitle("Title")
-                                .setChannelId(id)
-                                .setContentText("Notification text");
-
-                Notification notification = builder.build();
-
-                notificationManager.notify(2, notification);
+//                NotificationCompat.Builder builder =
+//                        new NotificationCompat.Builder(SearchActivity.this)
+//                                .setSmallIcon(R.drawable.ic_launcher_foreground)
+//                                .setContentTitle("Title")
+//                                .setChannelId(id)
+//                                .setContentText("Notification text");
+//
+//                Notification notification = builder.build();
+//
+//                notificationManager.notify(2, notification);
 
                 if (officeEquips.size() > 0)
                     officeEquips.clear();

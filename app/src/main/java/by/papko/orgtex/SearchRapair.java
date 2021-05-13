@@ -44,9 +44,25 @@ public class SearchRapair extends AppCompatActivity {
         RepairAdapter.OnRepairPartsClickListener repairPartsClickListener = new RepairAdapter.OnRepairPartsClickListener() {
             @Override
             public void onRepairPartsClick(RepairParts repairParts, int position) {
-                Intent intent = new Intent(SearchRapair.this, ShowOfficeActivity.class);
-                intent.putExtra(RepairParts.class.getSimpleName(), repairParts);
-                startActivity(intent);
+                Intent i = getIntent();
+                String stringID = i.getStringExtra("TECHINK");
+                if (stringID != null && stringID.equals("45")) {
+                    Intent intent = new Intent(SearchRapair.this, ShowOfficeActivity.class);
+                    intent.putExtra(RepairParts.class.getSimpleName(), repairParts);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
+                }else if (stringID != null && stringID.equals("55")){
+                    Intent intent = new Intent();
+                    intent.putExtra(RepairParts.class.getSimpleName(), repairParts);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+                else {
+                    Intent intent = new Intent(SearchRapair.this, ShowOfficeActivity.class);
+                    intent.putExtra(RepairParts.class.getSimpleName(), repairParts);
+                    startActivity(intent);
+                }
             }
         };
 
@@ -62,10 +78,12 @@ public class SearchRapair extends AppCompatActivity {
                 }catch (Exception ignored) { }
             }
         });
+
         adapter = new RepairAdapter(this, repairPartsArray, repairPartsClickListener);
         recyclerSearchRapirView.setAdapter(adapter);
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.REPAIR);
         getDataFromDB();
+
         btnSearchRapirSearch.setOnClickListener(v -> searchList());
 
     }

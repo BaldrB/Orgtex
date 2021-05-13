@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,13 +24,15 @@ import java.util.ArrayList;
 
 public class TechnickActivity extends AppCompatActivity {
 
-    private Button btnBack, btnCreate, btnScaner, btnTechnikAddRepair;
+    private Button btnBack, btnCreate, btnScaner, btnTechnikAddRepair, btnTechnikRepairDelete;
     private EditText editInv, editSerial, editName, editgrpoup, editDop;
     private ListView listRepairTech;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
     OfficeEquip officeEquip;
-    ArrayList<String> countries = new ArrayList<>();
+    RepairParts repairParts;
+    ArrayList<String> listParts = new ArrayList<String>();
+    ArrayList<String> listSelectParts = new ArrayList<>();
     ArrayAdapter<String> adapter;
 
     private final static String TAG = "TechnickActivity";
@@ -38,7 +40,7 @@ public class TechnickActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_technick);
+        setContentView(R.layout.activity_technick_create);
         Log.d(TAG, "onCreate");
 
         btnBack = findViewById(R.id.btnBack);
@@ -51,9 +53,10 @@ public class TechnickActivity extends AppCompatActivity {
         btnScaner = findViewById(R.id.btnScaner);
         btnTechnikAddRepair = findViewById(R.id.btnTechnikAddRepair);
         listRepairTech = findViewById(R.id.listRepairTech);
+        btnTechnikRepairDelete = findViewById(R.id.btnTechnikRepairDelete);
         // создаем адаптер
         adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, countries);
+                android.R.layout.simple_list_item_multiple_choice, listParts);
 
         // устанавливаем для списка адаптер
         listRepairTech.setAdapter(adapter);
@@ -65,10 +68,38 @@ public class TechnickActivity extends AppCompatActivity {
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
         mAuth = FirebaseAuth.getInstance();
 
+        btnTechnikRepairDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // получаем и удаляем выделенные элементы
+                for(int i=0; i< listSelectParts.size();i++){
+                    adapter.remove(listSelectParts.get(i));
+                }
+                // снимаем все ранее установленные отметки
+                listRepairTech.clearChoices();
+                // очищаем массив выбраных объектов
+                listSelectParts.clear();
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        listRepairTech.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // получаем нажатый элемент
+                String user = adapter.getItem(position);
+                if(listRepairTech.isItemChecked(position))
+                    listSelectParts.add(user);
+                else
+                    listSelectParts.remove(user);
+
+            }
+        });
+
         btnTechnikAddRepair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TechnickActivity.this, SearchActivity.class);
+                Intent intent = new Intent(TechnickActivity.this, SearchRapair.class);
                 intent.putExtra("TECHINK","45");
                 startActivityForResult(intent, 45);
             }
@@ -96,7 +127,7 @@ public class TechnickActivity extends AppCompatActivity {
         String idkey = mDataBase.push().getKey();
         OfficeEquip officeEquip = new OfficeEquip(idkey, editInv.getText().toString(),
                 editSerial.getText().toString(), editName.getText().toString(),
-                editgrpoup.getText().toString(), editDop.getText().toString(), countries);
+                editgrpoup.getText().toString(), editDop.getText().toString(), listParts);
 
         if(!TextUtils.isEmpty(editInv.getText().toString()) && !TextUtils.isEmpty(editSerial.getText().toString())
                 && !TextUtils.isEmpty(editName.getText().toString()) && !TextUtils.isEmpty(editgrpoup.getText().toString())) {
@@ -108,6 +139,7 @@ public class TechnickActivity extends AppCompatActivity {
             editName.setText("");
             editgrpoup.setText("");
             editDop.setText("");
+            adapter.clear();
 
         } else {
             Toast.makeText(this, "Зполниет все поля", Toast.LENGTH_LONG).show();
@@ -123,8 +155,8 @@ public class TechnickActivity extends AppCompatActivity {
         if (requestCode == 45) {
             Bundle arguments = data.getExtras();
             if(arguments !=null) {
-                officeEquip = (OfficeEquip) arguments.getSerializable(OfficeEquip.class.getSimpleName());
-                adapter.add(officeEquip.getId());
+                repairParts = (RepairParts) arguments.getSerializable(RepairParts.class.getSimpleName());
+                adapter.add(repairParts.getName());
             }
             adapter.notifyDataSetChanged();
         }

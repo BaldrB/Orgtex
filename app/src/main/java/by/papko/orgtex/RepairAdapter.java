@@ -37,6 +37,8 @@ public class RepairAdapter extends RecyclerView.Adapter<RepairAdapter.ViewHolder
     public void onBindViewHolder(RepairAdapter.ViewHolder holder, int position) {
         RepairParts repairParts = RepairPartse.get(position);
         holder.inent.setText(repairParts.getId());
+        holder.name.setText(repairParts.getName());
+        holder.serial.setText(repairParts.getSerial());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +54,12 @@ public class RepairAdapter extends RecyclerView.Adapter<RepairAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView inent;
+        final TextView inent, name, serial;
         ViewHolder(View view){
             super(view);
             inent = view.findViewById(R.id.textRepitItemId);
+            name = view.findViewById(R.id.textRepitItemName);
+            serial = view.findViewById(R.id.textRepitItemSerial);
         }
     }
 }

@@ -1,5 +1,6 @@
 package by.papko.orgtex;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,17 +21,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class ShowOfficeActivity extends AppCompatActivity {
 
     private TextView textInv, textSer, textNa, textGro, textDops;
-    private Button btnBack, btnRedact, btnSave;
-    private EditText editTest;
+    private Button btnBack, btnRedact, btnSave, btnTechnikShowRepairAdd, btnTechnikShowRepairDelete;
+    private Button btnShowOfficeTechDelete;
     private ListView listShowOffice;
     private boolean flagBtnRedact = true;
     OfficeEquip officeEquip;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
-    String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай", "Аргентина", "Колумбия", "Чили", "Уругвай"};
+    ArrayList<String> listParts = new ArrayList<>();
+    ArrayList<String> listSelectParts = new ArrayList<>();
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +48,16 @@ public class ShowOfficeActivity extends AppCompatActivity {
         textDops = findViewById(R.id.textDops);
         btnBack = findViewById(R.id.btnBack1);
         btnRedact = findViewById(R.id.btnRedact);
-        editTest = findViewById(R.id.editTest);
         btnSave = findViewById(R.id.btnShowOfficeSave);
+        btnShowOfficeTechDelete = findViewById(R.id.btnShowOfficeTechDelete);
         listShowOffice = findViewById(R.id.listShowOffice);
+        btnTechnikShowRepairAdd = findViewById(R.id.btnTechnikShowRepairAdd);
+        btnTechnikShowRepairDelete = findViewById(R.id.btnTechnikShowRepairDelete);
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
 
         // создаем адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, countries);
+        adapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_multiple_choice, listParts);
 
         // устанавливаем для списка адаптер
         listShowOffice.setAdapter(adapter);
@@ -59,9 +67,57 @@ public class ShowOfficeActivity extends AppCompatActivity {
         FirebaseUser cUser = mAuth.getCurrentUser();
         Log.d("MyLog", "ShowOfficeActivity UID : " + cUser.getUid());
 
-
-        if(arguments !=null) {
+        if(arguments != null) {
+            officeEquip = (OfficeEquip) arguments.getSerializable(OfficeEquip.class.getSimpleName());
+            textInv.setText(officeEquip.getInv());
+            textSer.setText(officeEquip.getSerial());
+            textNa.setText(officeEquip.getNameequio());
+            textGro.setText(officeEquip.getGropequimp());
+            textDops.setText(officeEquip.getAdditional());
+            listParts.addAll(officeEquip.getRepairPartsId());
         }
+        btnShowOfficeTechDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnTechnikShowRepairAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowOfficeActivity.this, SearchRapair.class);
+                intent.putExtra("TECHINK","55");
+                startActivityForResult(intent, 55);
+            }
+        });
+
+        btnTechnikShowRepairDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // получаем и удаляем выделенные элементы
+                for(int i=0; i< listSelectParts.size();i++){
+                    adapter.remove(listSelectParts.get(i));
+                }
+                // снимаем все ранее установленные отметки
+                listShowOffice.clearChoices();
+                // очищаем массив выбраных объектов
+                listSelectParts.clear();
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        listShowOffice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // получаем нажатый элемент
+                String user = adapter.getItem(position);
+                if(listShowOffice.isItemChecked(position))
+                    listSelectParts.add(user);
+                else
+                    listSelectParts.remove(user);
+            }
+        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +134,7 @@ public class ShowOfficeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 OfficeEquip officeEquipSave = new OfficeEquip(officeEquip.getId(), textInv.getText().toString(),
                         textSer.getText().toString(), textNa.getText().toString(),
-                        textGro.getText().toString(), textDops.getText().toString());
+                        textGro.getText().toString(), textDops.getText().toString(), listParts);
 
                 if(!TextUtils.isEmpty(textInv.getText().toString()) && !TextUtils.isEmpty(textSer.getText().toString())
                         && !TextUtils.isEmpty(textNa.getText().toString()) && !TextUtils.isEmpty(textGro.getText().toString())) {
@@ -101,7 +157,10 @@ public class ShowOfficeActivity extends AppCompatActivity {
                     textNa.setEnabled(true);
                     textGro.setEnabled(true);
                     textDops.setEnabled(true);
-                    editTest.setEnabled(true);
+                    btnSave.setEnabled(true);
+                    btnShowOfficeTechDelete.setEnabled(true);
+                    btnTechnikShowRepairAdd.setEnabled(true);
+                    btnTechnikShowRepairDelete.setEnabled(true);
                     flagBtnRedact = false;
                 }
                 else {
@@ -110,12 +169,31 @@ public class ShowOfficeActivity extends AppCompatActivity {
                     textNa.setEnabled(false);
                     textGro.setEnabled(false);
                     textDops.setEnabled(false);
-                    editTest.setEnabled(false);
+                    btnSave.setEnabled(false);
+                    btnShowOfficeTechDelete.setEnabled(false);
+                    btnTechnikShowRepairAdd.setEnabled(false);
+                    btnTechnikShowRepairDelete.setEnabled(false);
                     flagBtnRedact = true;
 
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            textSer.setText(data.getStringExtra(Constant.SERIAL_NAME));
+        }
+        if (requestCode == 55) {
+            Bundle arguments = data.getExtras();
+            if(arguments !=null) {
+                RepairParts repairParts = (RepairParts) arguments.getSerializable(RepairParts.class.getSimpleName());
+                adapter.add(repairParts.getName());
+            }
+            adapter.notifyDataSetChanged();
+        }
     }
 
     //Системная кнопка Назад
