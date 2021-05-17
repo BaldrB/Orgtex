@@ -14,13 +14,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/fon1">
 
         <Button
             android:id="@+id/btnBackRepairCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Назад" />
+            android:text="Назад"
+            android:background="@drawable/button_style_press"
+            android:layout_margin="5dp"/>
 
         <EditText
             android:id="@+id/editNameRepairCreate"
@@ -28,7 +31,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Название"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_margin="5dp"/>
 
         <EditText
             android:id="@+id/editSerialRepairCreate"
@@ -36,7 +40,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Серийный"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_margin="5dp"/>
 
         <EditText
             android:id="@+id/editQuantityRepairCreate"
@@ -44,7 +49,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Количество"
-            android:inputType="number" />
+            android:inputType="number"
+            android:layout_margin="5dp"/>
 
         <EditText
             android:id="@+id/editDopRepairCreate"
@@ -52,12 +58,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Доп"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_margin="5dp"/>
 
         <Button
             android:id="@+id/btnCreateRepairCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Добавить" />
+            android:text="Добавить"
+            android:background="@drawable/button_style_press"
+            android:layout_margin="5dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

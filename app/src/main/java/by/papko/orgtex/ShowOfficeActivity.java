@@ -30,12 +30,12 @@ public class ShowOfficeActivity extends AppCompatActivity {
     private Button btnShowOfficeTechDelete;
     private ListView listShowOffice;
     private boolean flagBtnRedact = true;
-    OfficeEquip officeEquip;
+    private OfficeEquip officeEquip;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
-    ArrayList<String> listParts = new ArrayList<>();
-    ArrayList<String> listSelectParts = new ArrayList<>();
-    ArrayAdapter<String> adapter;
+    private ArrayList<String> listParts = new ArrayList<>();
+    private ArrayList<String> listSelectParts = new ArrayList<>();
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +76,12 @@ public class ShowOfficeActivity extends AppCompatActivity {
             textDops.setText(officeEquip.getAdditional());
             listParts.addAll(officeEquip.getRepairPartsId());
         }
+
         btnShowOfficeTechDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDataBase.child(officeEquip.getId()).removeValue();
+                Toast.makeText(getApplicationContext(), "Удалино", Toast.LENGTH_SHORT).show();
 
             }
         });

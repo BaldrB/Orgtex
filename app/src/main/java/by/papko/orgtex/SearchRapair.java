@@ -46,8 +46,10 @@ public class SearchRapair extends AppCompatActivity {
             public void onRepairPartsClick(RepairParts repairParts, int position) {
                 Intent i = getIntent();
                 String stringID = i.getStringExtra("TECHINK");
+
                 if (stringID != null && stringID.equals("45")) {
-                    Intent intent = new Intent(SearchRapair.this, ShowOfficeActivity.class);
+//                    Intent intent = new Intent(SearchRapair.this, ShowOfficeActivity.class);
+                    Intent intent = new Intent();
                     intent.putExtra(RepairParts.class.getSimpleName(), repairParts);
                     setResult(RESULT_OK, intent);
                     finish();
@@ -59,7 +61,7 @@ public class SearchRapair extends AppCompatActivity {
                     finish();
                 }
                 else {
-                    Intent intent = new Intent(SearchRapair.this, ShowOfficeActivity.class);
+                    Intent intent = new Intent(SearchRapair.this, ShowRapairActivity.class);
                     intent.putExtra(RepairParts.class.getSimpleName(), repairParts);
                     startActivity(intent);
                 }

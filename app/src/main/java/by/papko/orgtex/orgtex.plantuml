@@ -1,0 +1,381 @@
+@startuml
+
+title __ORGTEX's Class Diagram__\n
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.AdminActivity {
+        - adapters : ArrayAdapter<String>
+        - btnSava : Button
+        - mDataBase : DatabaseReference
+        - radioButtonCreate : RadioButton
+        - radioButtonFull : RadioButton
+        - radioButtonVision : RadioButton
+        - radioGroup : RadioGroup
+        - securityUsers : ArrayList<SecurityUser>
+        - textSelectUser : TextView
+        - userList : ListView
+        - users : ArrayList<String>
+        + onBackPressed()
+        # onCreate()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.BaracodeActivity {
+        - mCodeScanner : CodeScanner
+        + onBackPressed()
+        + onRequestPermissionsResult()
+        # onCreate()
+        # onPause()
+        # onResume()
+        - startScanning()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.Constant {
+        {static} + ORGTECH : String
+        {static} + REPAIR : String
+        {static} + SECURITY : String
+        {static} + SERIAL_NAME : String
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.MainActivity {
+        - btnAdmin : Button
+        - btnCreate : Button
+        - btnCreateRepair : Button
+        - btnExit : Button
+        - btnRepair : Button
+        - btnTechnik : Button
+        - mAuth : FirebaseAuth
+        - mDataBase : DatabaseReference
+        - securiy : String
+        + onBackPressed()
+        # onCreate()
+        # onStart()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.OfficeAdapter {
+        - inflater : LayoutInflater
+        - officeEquips : List<OfficeEquip>
+        + getItemCount()
+        + onBindViewHolder()
+        + onCreateViewHolder()
+        ~ OfficeAdapter()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    interface by.papko.orgtex.OfficeAdapter.OnOfficeEquipClickListener {
+        {abstract} + onOfficeEquipClick()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.OfficeAdapter.ViewHolder {
+        ~ inent : TextView
+        ~ name : TextView
+        ~ serial : TextView
+        ~ ViewHolder()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.OfficeEquip {
+        - additional : String
+        - gropequimp : String
+        - id : String
+        - inv : String
+        - nameequio : String
+        - repairPartsId : List<String>
+        - serial : String
+        + OfficeEquip()
+        + OfficeEquip()
+        + OfficeEquip()
+        + addRepairPartsId()
+        + getAdditional()
+        + getGropequimp()
+        + getId()
+        + getInv()
+        + getNameequio()
+        + getRepairPartsId()
+        + getSerial()
+        + setAdditional()
+        + setGropequimp()
+        + setId()
+        + setInv()
+        + setNameequio()
+        + setRepairPartsId()
+        + setSerial()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.RegisterActivity {
+        - btnSingIn : Button
+        - btnSingOn : Button
+        - btnStart : Button
+        - editEmail : EditText
+        - editFullName : EditText
+        - editPassword : EditText
+        - mAuth : FirebaseAuth
+        - mDataBase : DatabaseReference
+        - tvUserEmail : TextView
+        # onCreate()
+        # onStart()
+        - init()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.RepairAdapter {
+        - RepairPartse : List<RepairParts>
+        - inflater : LayoutInflater
+        + getItemCount()
+        + onBindViewHolder()
+        + onCreateViewHolder()
+        ~ RepairAdapter()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    interface by.papko.orgtex.RepairAdapter.OnRepairPartsClickListener {
+        {abstract} + onRepairPartsClick()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.RepairAdapter.ViewHolder {
+        ~ name : TextView
+        ~ quantity : TextView
+        ~ serial : TextView
+        ~ ViewHolder()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.RepairCreateActivity {
+        {static} - TAG : String
+        - btnBackRepairCreate : Button
+        - btnCreateRepairCreate : Button
+        - editDopRepairCreate : EditText
+        - editNameRepairCreate : EditText
+        - editQuantityRepairCreate : EditText
+        - editSerialRepairCreate : EditText
+        - mDataBase : DatabaseReference
+        + onBackPressed()
+        # onCreate()
+        - init()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.RepairParts {
+        - dop : String
+        - id : String
+        - name : String
+        - quantity : int
+        - serial : String
+        + getDop()
+        + getId()
+        + getName()
+        + getQuantity()
+        + getSerial()
+        + setDop()
+        + setId()
+        + setName()
+        + setQuantity()
+        + setSerial()
+        ~ RepairParts()
+        ~ RepairParts()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.SearchActivity {
+        ~ id : String
+        ~ notificationManager : NotificationManager
+        - btnSearch : Button
+        - btnSearchBack : Button
+        - edSearch : EditText
+        - mDataBase : DatabaseReference
+        - officeEquips : ArrayList<OfficeEquip>
+        - officeEquipsArray : ArrayList<OfficeEquip>
+        - recyclerView : RecyclerView
+        + onBackPressed()
+        # onCreate()
+        - createNotificationChannel()
+        - getDataFromDB()
+        - searchList()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.SearchRapair {
+        ~ notificationManager : NotificationManager
+        - btnSearchRapirBack : Button
+        - btnSearchRapirSearch : Button
+        - editSearchRapir : EditText
+        - mDataBase : DatabaseReference
+        - recyclerSearchRapirView : RecyclerView
+        - repairPartsArray : ArrayList<RepairParts>
+        - repairPartse : ArrayList<RepairParts>
+        + onBackPressed()
+        # onCreate()
+        - getDataFromDB()
+        - init()
+        - searchList()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.SecurityUser {
+        - access : String
+        - eMail : String
+        - fullName : String
+        - uid : String
+        + SecurityUser()
+        + SecurityUser()
+        + getAccess()
+        + getFullName()
+        + getUid()
+        + geteMail()
+        + setAccess()
+        + setFullName()
+        + setUid()
+        + seteMail()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.SecurityUserAdapter {
+        - inflater : LayoutInflater
+        - layout : int
+        - securityUsers : List<SecurityUser>
+        + SecurityUserAdapter()
+        + getView()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.ShowOfficeActivity {
+        - adapter : ArrayAdapter<String>
+        - btnBack : Button
+        - btnRedact : Button
+        - btnSave : Button
+        - btnShowOfficeTechDelete : Button
+        - btnTechnikShowRepairAdd : Button
+        - btnTechnikShowRepairDelete : Button
+        - flagBtnRedact : boolean
+        - listParts : ArrayList<String>
+        - listSelectParts : ArrayList<String>
+        - listShowOffice : ListView
+        - mAuth : FirebaseAuth
+        - mDataBase : DatabaseReference
+        - textDops : TextView
+        - textGro : TextView
+        - textInv : TextView
+        - textNa : TextView
+        - textSer : TextView
+        + onBackPressed()
+        # onActivityResult()
+        # onCreate()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.ShowRapairActivity {
+        - btnBack : Button
+        - btnDelete : Button
+        - btnRedact : Button
+        - btnSave : Button
+        - flagBtnRedact : boolean
+        - mDataBase : DatabaseReference
+        - textDop : EditText
+        - textName : EditText
+        - textQuantity : EditText
+        - textSerial : EditText
+        + onBackPressed()
+        # onCreate()
+        - init()
+    }
+  }
+  
+
+  namespace by.papko.orgtex {
+    class by.papko.orgtex.TechnickActivity {
+        ~ adapter : ArrayAdapter<String>
+        ~ listParts : ArrayList<String>
+        ~ listSelectParts : ArrayList<String>
+        {static} - TAG : String
+        - btnBack : Button
+        - btnCreate : Button
+        - btnScaner : Button
+        - btnTechnikAddRepair : Button
+        - btnTechnikRepairDelete : Button
+        - editDop : EditText
+        - editInv : EditText
+        - editName : EditText
+        - editSerial : EditText
+        - editgrpoup : EditText
+        - listRepairTech : ListView
+        - mAuth : FirebaseAuth
+        - mDataBase : DatabaseReference
+        + onBackPressed()
+        + onClickCreate()
+        # onActivityResult()
+        # onCreate()
+        # onPause()
+        # onResume()
+        # onStart()
+    }
+  }
+  
+
+  by.papko.orgtex.AdminActivity o-- by.papko.orgtex.SecurityUser : secuUser
+  by.papko.orgtex.AdminActivity o-- by.papko.orgtex.SecurityUserAdapter : stateAdapter
+  by.papko.orgtex.OfficeAdapter o-- by.papko.orgtex.OfficeAdapter.OnOfficeEquipClickListener : onClickListener
+  by.papko.orgtex.OfficeAdapter +-down- by.papko.orgtex.OfficeAdapter.OnOfficeEquipClickListener
+  by.papko.orgtex.OfficeAdapter +-down- by.papko.orgtex.OfficeAdapter.ViewHolder
+  by.papko.orgtex.RepairAdapter o-- by.papko.orgtex.RepairAdapter.OnRepairPartsClickListener : onClickListener
+  by.papko.orgtex.RepairAdapter +-down- by.papko.orgtex.RepairAdapter.OnRepairPartsClickListener
+  by.papko.orgtex.RepairAdapter +-down- by.papko.orgtex.RepairAdapter.ViewHolder
+  by.papko.orgtex.SearchActivity o-- by.papko.orgtex.OfficeAdapter : adapter
+  by.papko.orgtex.SearchRapair o-- by.papko.orgtex.RepairAdapter : adapter
+  by.papko.orgtex.ShowOfficeActivity o-- by.papko.orgtex.OfficeEquip : officeEquip
+  by.papko.orgtex.ShowRapairActivity o-- by.papko.orgtex.RepairParts : repairParts
+  by.papko.orgtex.TechnickActivity o-- by.papko.orgtex.OfficeEquip : officeEquip
+  by.papko.orgtex.TechnickActivity o-- by.papko.orgtex.RepairParts : repairParts
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

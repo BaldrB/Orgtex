@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    tools:context=".SearchActivity"
+    android:background="@color/fon1">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -39,7 +40,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Поиск" />
+                    android:text="Поиск"
+                    android:background="@drawable/button_style_press"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -69,6 +72,8 @@
             android:id="@+id/btnSearchBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Назад" />
+            android:text="Назад"
+            android:background="@drawable/button_style_press"
+            android:layout_margin="5dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

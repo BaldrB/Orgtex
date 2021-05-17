@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText editEmail, editPassword;
+    private EditText editEmail, editPassword, editFullName;
     private TextView tvUserEmail;
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
             btnSingIn.setVisibility(View.GONE);
             editEmail.setVisibility(View.GONE);
             editPassword.setVisibility(View.GONE);
+            editFullName.setVisibility(View.GONE);
 
             btnStart.setVisibility(View.VISIBLE);
             tvUserEmail.setVisibility(View.VISIBLE);
@@ -61,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
             btnSingIn.setVisibility(View.VISIBLE);
             editEmail.setVisibility(View.VISIBLE);
             editPassword.setVisibility(View.VISIBLE);
+            editFullName.setVisibility(View.VISIBLE);
             btnStart.setVisibility(View.GONE);
             tvUserEmail.setVisibility(View.GONE);
         }
@@ -71,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void init() {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
+        editFullName = findViewById(R.id.editFullName);
         btnSingOn = findViewById(R.id.btnSignOut);
         btnSingIn = findViewById(R.id.btnSingIn);
         btnStart = findViewById(R.id.btnStart);
@@ -92,15 +95,16 @@ public class RegisterActivity extends AppCompatActivity {
         btnSingOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())) {
-                    System.out.println(editEmail.getText().toString() + "   " + editPassword.getText().toString());
+                if (!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())
+                        && !TextUtils.isEmpty(editFullName.getText().toString())) {
 
                     mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString())
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()) {
-                                        SecurityUser securityUser = new SecurityUser(mAuth.getUid().toString(), "vision");
+                                        SecurityUser securityUser = new SecurityUser(mAuth.getUid().toString(),
+                                                "vision", editEmail.getText().toString(), editFullName.getText().toString());
                                         mDataBase.child(mAuth.getUid()).setValue(securityUser);
                                         Toast.makeText(getApplicationContext(), "Создан аккаунт удачно", Toast.LENGTH_SHORT).show();
                                     }
@@ -111,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                             });
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Введите логин пароль", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Введите все данные", Toast.LENGTH_SHORT).show();
                 }
 
             }

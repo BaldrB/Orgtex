@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TechnickActivity">
+    tools:context=".TechnickActivity"
+    android:background="@color/fon1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +23,9 @@
                 android:id="@+id/btnBack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Назад" />
+                android:text="Назад"
+                android:background="@drawable/button_style_press"
+                android:layout_margin="5dp"/>
 
             <EditText
                 android:id="@+id/edInvetr"
@@ -50,7 +53,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Скан шрих код" />
+                    android:text="Скан шрих код"
+                    android:background="@drawable/button_style_press"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
 
             <EditText
@@ -82,7 +87,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onClickCreate"
-                android:text="Добавить" />
+                android:text="Добавить"
+                android:background="@drawable/button_style_press"
+                android:layout_margin="5dp"/>
 
 
         </LinearLayout>
@@ -92,16 +99,29 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnTechnikAddRepair"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Добавить Запчасть" />
-            <Button
-                android:id="@+id/btnTechnikRepairDelete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Удалить запчасти" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnTechnikAddRepair"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button_style_press"
+                    android:text="Добавить Запчасть" />
+
+                <Button
+                    android:id="@+id/btnTechnikRepairDelete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button_style_press"
+                    android:text="Удалить запчасти" />
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/listRepairTech"
