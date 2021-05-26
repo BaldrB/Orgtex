@@ -27,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView tvUserEmail;
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
+    private boolean flagRegister = false;
 //    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private Button btnSingOn, btnSingIn, btnStart;
@@ -62,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
             btnSingIn.setVisibility(View.VISIBLE);
             editEmail.setVisibility(View.VISIBLE);
             editPassword.setVisibility(View.VISIBLE);
-            editFullName.setVisibility(View.VISIBLE);
+            editFullName.setVisibility(View.GONE);
             btnStart.setVisibility(View.GONE);
             tvUserEmail.setVisibility(View.GONE);
         }
@@ -95,57 +96,69 @@ public class RegisterActivity extends AppCompatActivity {
         btnSingOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())
-                        && !TextUtils.isEmpty(editFullName.getText().toString())) {
+                if (flagRegister) {
+                    if (!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())
+                            && !TextUtils.isEmpty(editFullName.getText().toString())) {
 
-                    mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()) {
-                                        SecurityUser securityUser = new SecurityUser(mAuth.getUid().toString(),
-                                                "vision", editEmail.getText().toString(), editFullName.getText().toString());
-                                        mDataBase.child(mAuth.getUid()).setValue(securityUser);
-                                        Toast.makeText(getApplicationContext(), "Создан аккаунт удачно", Toast.LENGTH_SHORT).show();
+                        mAuth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            SecurityUser securityUser = new SecurityUser(mAuth.getUid().toString(),
+                                                    "vision", editEmail.getText().toString(), editFullName.getText().toString());
+                                            mDataBase.child(mAuth.getUid()).setValue(securityUser);
+                                            Toast.makeText(getApplicationContext(), "Создан аккаунт удачно", Toast.LENGTH_SHORT).show();
+                                            editFullName.setVisibility(View.GONE);
+                                            btnSingIn.setText("Вход");
+                                            flagRegister = false;
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Создан аккаунт неудачно", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), "Создан аккаунт неудачно", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Введите все данные", Toast.LENGTH_SHORT).show();
-                }
+                                });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Введите все данные", Toast.LENGTH_SHORT).show();
+                    }
 
+                } else {
+                    editFullName.setVisibility(View.VISIBLE);
+                    btnSingIn.setText("Назад");
+                    flagRegister = true;
+                }
             }
         });
 
         btnSingIn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())) {
-                    mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString())
-                            .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()) {
-                                        Toast.makeText(getApplicationContext(), "User SignIn Successful", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), "User SignIn failed", Toast.LENGTH_SHORT).show();
-                                    }
+                if(!flagRegister) {
+                    if (!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())) {
+                        mAuth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getApplicationContext(), "Пользователь вошел удачно", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Пользователь вошел с ошибкой", Toast.LENGTH_SHORT).show();
+                                        }
 
-                                }
-                            });
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Введите логин пароль", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Введите логин пароль", Toast.LENGTH_SHORT).show();
+                    editFullName.setVisibility(View.GONE);
+                    btnSingIn.setText("Вход");
+                    flagRegister = false;
                 }
-
             }
         });
     }

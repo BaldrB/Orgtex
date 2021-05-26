@@ -33,7 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Вход"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:background="@drawable/button_style_press"
+                android:layout_margin="5dp"/>
 
             <EditText
                 android:id="@+id/editFullName"
@@ -59,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Пароль"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:visibility="visible" />
 
             <Button

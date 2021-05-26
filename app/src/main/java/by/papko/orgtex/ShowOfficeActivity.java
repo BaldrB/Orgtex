@@ -1,5 +1,6 @@
 package by.papko.orgtex;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,8 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,6 +36,7 @@ public class ShowOfficeActivity extends AppCompatActivity {
     private boolean flagBtnRedact = true;
     private OfficeEquip officeEquip;
     private DatabaseReference mDataBase;
+    private DatabaseReference mDataBaseUser;
     private FirebaseAuth mAuth;
     private ArrayList<String> listParts = new ArrayList<>();
     private ArrayList<String> listSelectParts = new ArrayList<>();
@@ -54,6 +59,7 @@ public class ShowOfficeActivity extends AppCompatActivity {
         btnTechnikShowRepairAdd = findViewById(R.id.btnTechnikShowRepairAdd);
         btnTechnikShowRepairDelete = findViewById(R.id.btnTechnikShowRepairDelete);
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ORGTECH);
+        mDataBaseUser = FirebaseDatabase.getInstance().getReference(Constant.SECURITY);
 
         // создаем адаптер
         adapter = new ArrayAdapter(this,
@@ -181,6 +187,37 @@ public class ShowOfficeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            Log.d("MyLog", "UID : " + currentUser.getUid());
+            mDataBaseUser.child(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        Log.d("firebase", String.valueOf(task.getResult().getValue(SecurityUser.class)));
+                        if (!(null == task.getResult().getValue(SecurityUser.class))) {
+                            SecurityUser seUs = task.getResult().getValue(SecurityUser.class);
+                            String securiy = seUs.getAccess();
+                            if (securiy.equals("vision")) {
+                                btnSave.setVisibility(View.INVISIBLE);
+                                btnShowOfficeTechDelete.setVisibility(View.INVISIBLE);
+                                btnTechnikShowRepairAdd.setVisibility(View.INVISIBLE);
+                                btnTechnikShowRepairDelete.setVisibility(View.INVISIBLE);
+                                btnRedact.setVisibility(View.INVISIBLE);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        else
+            Log.d("MyLog", "UID : not");
     }
 
     @Override
